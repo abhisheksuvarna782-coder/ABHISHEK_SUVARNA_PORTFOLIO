@@ -15,7 +15,7 @@ export const PROFILE = {
     degree: 'Bachelor of Engineering in Computer Science & Engineering (AI & ML)',
     institution: 'AJ Institute of Engineering and Technology',
     location: 'Mangalore, Karnataka',
-    graduationYear: 2027,
+    graduationYear: 2028,
     cgpa: 8.7,
     semesters: [
       { sem: 1, gpa: 8.32 },
