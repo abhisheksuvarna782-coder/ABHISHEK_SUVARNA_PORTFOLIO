@@ -62,7 +62,7 @@ export default function About() {
               </div>
               <div className="about__fact-sep" aria-hidden="true" />
               <div className="about__fact">
-                <span className="about__fact-num font-serif">2027</span>
+                <span className="about__fact-num font-serif">2028</span>
                 <span className="about__fact-label label">Expected Graduation</span>
               </div>
             </div>
