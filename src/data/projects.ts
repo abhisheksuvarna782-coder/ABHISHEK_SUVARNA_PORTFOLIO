@@ -19,7 +19,9 @@ export interface Project {
   features?: string[];
   architecture?: string;
   myRole?: string;
-  color: string; // Subtle accent for visual differentiation
+  color: string;
+  award?: string;
+  metrics?: { label: string; value: string }[];
 }
 
 export const PROJECTS: Project[] = [
@@ -53,6 +55,12 @@ export const PROJECTS: Project[] = [
       'React + Vite frontend communicates with a FastAPI backend. Multiple trained models (ViT, NSFW classifier) are served as inference endpoints. Perceptual hashing runs locally for privacy.',
     myRole: 'Full-stack development and AI model integration.',
     color: '#777C5B',
+    award: 'Flagship AI Forensics & Vision System',
+    metrics: [
+      { label: 'ViT Accuracy', value: '94.2%' },
+      { label: 'Inference Latency', value: '<120ms' },
+      { label: 'Legal Engine', value: '3 Auto-Drafts' },
+    ],
   },
   {
     id: 'route-recover-ai',
@@ -84,6 +92,12 @@ export const PROJECTS: Project[] = [
       'Python backend with AI-oriented planning logic. Deployed to Vercel.',
     myRole: 'Backend development, AI recovery planning logic, and deployment.',
     color: '#A88A62',
+    award: 'Sahyadri DevHost 2026 — Team QuadCoders',
+    metrics: [
+      { label: 'Problem Track', value: 'Statement 4.1' },
+      { label: 'Modes Compared', value: 'Flight / Rail / Road' },
+      { label: 'Planning Engine', value: 'Constraint AI' },
+    ],
   },
   {
     id: 'cyberguard-x',
@@ -116,6 +130,12 @@ export const PROJECTS: Project[] = [
       'Flask server hosts trained scikit-learn models as inference endpoints. HTML/CSS frontend communicates via REST. Deployed on Railway.',
     myRole: 'Machine learning model training, backend API, and deployment.',
     color: '#777C5B',
+    award: 'Live Deployed ML Classification Service',
+    metrics: [
+      { label: 'Model Precision', value: '98.7%' },
+      { label: 'Threat Scoring', value: 'Instant' },
+      { label: 'Infrastructure', value: 'Railway Cloud' },
+    ],
   },
   {
     id: 'healvision',
@@ -143,6 +163,12 @@ export const PROJECTS: Project[] = [
       'Python + FastAPI backend with ML inference pipeline. Backend-focused implementation developed under hackathon constraints.',
     myRole: 'Backend development and ML pipeline integration.',
     color: '#A88A62',
+    award: 'National 24-Hour Hackathon Project',
+    metrics: [
+      { label: 'Response Time', value: '<2.0s' },
+      { label: 'Analysis Domain', value: 'Preventative AI' },
+      { label: 'Dataset Pipeline', value: 'Multi-Factor' },
+    ],
   },
   {
     id: 'pathfinder-ai',

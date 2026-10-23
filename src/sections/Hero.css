@@ -154,13 +154,60 @@
   50%       { opacity: 1;   transform: scaleY(0.9); }
 }
 
-/* Annotation */
-.hero__annotation {
+/* 3D Real-time Engineering Coordinate HUD */
+.three-canvas__hud {
   position: absolute;
   bottom: var(--space-6);
   right: var(--grid-outer);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  background: rgba(247, 245, 239, 0.88);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--color-border);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 14px rgba(32, 33, 30, 0.06);
   pointer-events: none;
-  transition: opacity var(--duration-base) var(--ease-out);
+  z-index: 2;
+}
+
+.three-canvas__hud-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.three-canvas__hud-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 6px var(--color-accent);
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.three-canvas__hud-coords {
+  display: flex;
+  gap: var(--space-3);
+  font-size: 0.7rem;
+  color: var(--color-muted);
+}
+
+@media (max-width: 768px) {
+  .three-canvas__hud {
+    display: none;
+  }
+}
+
+/* Annotation */
+.hero__annotation {
+  display: none;
 }
 
 /* Responsive */

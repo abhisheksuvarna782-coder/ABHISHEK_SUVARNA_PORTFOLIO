@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 
 interface ThreeCanvasProps {
@@ -12,6 +12,7 @@ export default function ThreeCanvas({ scrollProgress, mouseX, mouseY, className 
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef(scrollProgress);
   const mouseRef = useRef({ x: mouseX, y: mouseY });
+  const [hudData, setHudData] = useState({ rotX: 0, rotY: 0, isDragging: false });
 
   useEffect(() => {
     scrollRef.current = scrollProgress;
@@ -50,25 +51,23 @@ export default function ThreeCanvas({ scrollProgress, mouseX, mouseY, className 
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setClearColor(0x000000, 0);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.1;
+    renderer.toneMappingExposure = 1.15;
     container.appendChild(renderer.domElement);
 
     // --- Lighting (Architectural & Dynamic) ---
-    const ambientLight = new THREE.AmbientLight(0xfffdfa, 0.85);
+    const ambientLight = new THREE.AmbientLight(0xfffdfa, 0.9);
     scene.add(ambientLight);
 
-    // Main key light
-    const keyLight = new THREE.DirectionalLight(0xfff3db, 1.6);
+    const keyLight = new THREE.DirectionalLight(0xfff3db, 1.8);
     keyLight.position.set(4, 5, 4);
     scene.add(keyLight);
 
-    // Rim/fill light for 3D edges
-    const rimLight = new THREE.DirectionalLight(0xb5c4a5, 0.9);
+    const rimLight = new THREE.DirectionalLight(0xb5c4a5, 1.0);
     rimLight.position.set(-4, -2, -3);
     scene.add(rimLight);
 
     // Mouse-following 3D Point Light for interactive facet glints
-    const cursorLight = new THREE.PointLight(0xd1a660, 2.5, 9);
+    const cursorLight = new THREE.PointLight(0xd1a660, 2.8, 10);
     cursorLight.position.set(0, 0, 2.5);
     scene.add(cursorLight);
 
@@ -76,7 +75,6 @@ export default function ThreeCanvas({ scrollProgress, mouseX, mouseY, className 
     const masterGroup = new THREE.Group();
     scene.add(masterGroup);
 
-    // Positioning offset: on desktop, shift to the right to frame editorial text
     const updateGroupPosition = (w: number) => {
       if (w >= 1024) {
         masterGroup.position.set(1.4, 0.1, 0);
@@ -92,15 +90,14 @@ export default function ThreeCanvas({ scrollProgress, mouseX, mouseY, className 
     updateGroupPosition(width);
 
     // --- 1. Polyhedral Crystalline Monolith ---
-    // Outer faceted icosahedron
     const crystalGeo = new THREE.IcosahedronGeometry(1.2, 0);
     const crystalMat = new THREE.MeshStandardMaterial({
-      color: 0xeee6d3,
-      roughness: 0.25,
-      metalness: 0.3,
+      color: 0xeee7d7,
+      roughness: 0.22,
+      metalness: 0.32,
       flatShading: true,
       transparent: true,
-      opacity: 0.78,
+      opacity: 0.8,
     });
     const crystalMesh = new THREE.Mesh(crystalGeo, crystalMat);
     masterGroup.add(crystalMesh);
@@ -110,20 +107,44 @@ export default function ThreeCanvas({ scrollProgress, mouseX, mouseY, className 
     const crystalWireMat = new THREE.LineBasicMaterial({
       color: 0x777c5b,
       transparent: true,
-      opacity: 0.75,
+      opacity: 0.8,
     });
     const crystalWire = new THREE.LineSegments(crystalWireGeo, crystalWireMat);
     masterGroup.add(crystalWire);
 
-    // --- 2. Inner Counter-Rotating Neural Core ---
+    // --- 2. Golden Vertex Anchor Nodes (True 3D Node Spheres) ---
+    const vertexGroup = new THREE.Group();
+    masterGroup.add(vertexGroup);
+    const vPos = crystalGeo.attributes.position;
+    const uniqueVerts: THREE.Vector3[] = [];
+    for (let i = 0; i < vPos.count; i++) {
+      const v = new THREE.Vector3().fromBufferAttribute(vPos, i);
+      if (!uniqueVerts.some((uv) => uv.distanceTo(v) < 0.05)) {
+        uniqueVerts.push(v);
+      }
+    }
+    const vertexSphereGeo = new THREE.SphereGeometry(0.045, 12, 12);
+    const vertexSphereMat = new THREE.MeshStandardMaterial({
+      color: 0xd4af37,
+      roughness: 0.2,
+      metalness: 0.85,
+    });
+    const vertexNodes = uniqueVerts.map((v) => {
+      const m = new THREE.Mesh(vertexSphereGeo, vertexSphereMat);
+      m.position.copy(v);
+      vertexGroup.add(m);
+      return { mesh: m, basePos: v.clone() };
+    });
+
+    // --- 3. Inner Counter-Rotating Neural Core ---
     const innerGeo = new THREE.OctahedronGeometry(0.72, 0);
     const innerMat = new THREE.MeshStandardMaterial({
       color: 0xa88a62,
       roughness: 0.2,
-      metalness: 0.6,
+      metalness: 0.65,
       flatShading: true,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.88,
     });
     const innerMesh = new THREE.Mesh(innerGeo, innerMat);
     masterGroup.add(innerMesh);
@@ -132,12 +153,12 @@ export default function ThreeCanvas({ scrollProgress, mouseX, mouseY, className 
     const innerWireMat = new THREE.LineBasicMaterial({
       color: 0xd4af37,
       transparent: true,
-      opacity: 0.9,
+      opacity: 0.95,
     });
     const innerWire = new THREE.LineSegments(innerWireGeo, innerWireMat);
     masterGroup.add(innerWire);
 
-    // --- 3. Gyroscopic Architectural Rings ---
+    // --- 4. Gyroscopic Architectural Rings ---
     const ringsGroup = new THREE.Group();
     masterGroup.add(ringsGroup);
 
@@ -154,7 +175,7 @@ export default function ThreeCanvas({ scrollProgress, mouseX, mouseY, className 
         roughness: 0.3,
         metalness: 0.5,
         transparent: true,
-        opacity: 0.6,
+        opacity: 0.65,
       });
       const mesh = new THREE.Mesh(geo, mat);
       mesh.rotation.x = def.tilt;
@@ -162,15 +183,15 @@ export default function ThreeCanvas({ scrollProgress, mouseX, mouseY, className 
       return { mesh, def };
     });
 
-    // --- 4. Orbiting Satellite Nodes (3D Depth Anchors) ---
-    const orbitCount = 12;
+    // --- 5. Orbiting Satellite Nodes ---
+    const orbitCount = 14;
     const orbitGroup = new THREE.Group();
     masterGroup.add(orbitGroup);
 
-    const orbitSphereGeo = new THREE.SphereGeometry(0.042, 16, 16);
+    const orbitSphereGeo = new THREE.SphereGeometry(0.045, 16, 16);
     const orbitSphereMat = new THREE.MeshStandardMaterial({
       color: 0x777c5b,
-      metalness: 0.7,
+      metalness: 0.75,
       roughness: 0.2,
     });
 
@@ -188,7 +209,7 @@ export default function ThreeCanvas({ scrollProgress, mouseX, mouseY, className 
       });
     }
 
-    // --- 5. Volumetric Particle Cloud ---
+    // --- 6. Volumetric Particle Cloud ---
     const particleCount = 450;
     const particlePositions = new Float32Array(particleCount * 3);
     const particleBase = new Float32Array(particleCount * 3);
@@ -226,13 +247,13 @@ export default function ThreeCanvas({ scrollProgress, mouseX, mouseY, className 
       size: 0.035,
       vertexColors: true,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.72,
       depthWrite: false,
     });
     const particleField = new THREE.Points(particleGeo, particleMat);
     masterGroup.add(particleField);
 
-    // --- 6. 3D Spatial Datum Floor Grid ---
+    // --- 7. 3D Spatial Datum Floor Grid ---
     const gridHelper = new THREE.GridHelper(10, 24, 0x8a8e72, 0xd8d4c7);
     gridHelper.position.set(0, -2.1, 0);
     (gridHelper.material as THREE.Material).transparent = true;
@@ -252,6 +273,7 @@ export default function ThreeCanvas({ scrollProgress, mouseX, mouseY, className 
       isDragging = true;
       prevPointerX = e.clientX;
       prevPointerY = e.clientY;
+      setHudData((prev) => ({ ...prev, isDragging: true }));
     };
 
     const handlePointerMoveWindow = (e: PointerEvent) => {
@@ -269,6 +291,7 @@ export default function ThreeCanvas({ scrollProgress, mouseX, mouseY, className 
 
     const handlePointerUpWindow = () => {
       isDragging = false;
+      setHudData((prev) => ({ ...prev, isDragging: false }));
     };
 
     window.addEventListener('pointerdown', handlePointerDown);
@@ -289,10 +312,12 @@ export default function ThreeCanvas({ scrollProgress, mouseX, mouseY, className 
 
     // --- Animation Loop ---
     let animId: number;
+    let frameCount = 0;
     const clock = new THREE.Clock();
 
     const animate = () => {
       animId = requestAnimationFrame(animate);
+      frameCount++;
 
       const time = clock.getElapsedTime();
       const currentScroll = reducedMotion ? 0 : scrollRef.current;
@@ -314,12 +339,19 @@ export default function ThreeCanvas({ scrollProgress, mouseX, mouseY, className 
       const decompT = Math.min(1, Math.max(0, currentScroll * 1.8));
       const decompSmooth = decompT * decompT * (3 - 2 * decompT);
 
-      // 3D Master Group Rotation (combining auto-rotation, scroll rotation, mouse tilt, and user drag)
+      // 3D Master Group Rotation
       const targetMouseRotX = currentMouse.y * 0.35 + userRotX;
       const targetMouseRotY = currentMouse.x * 0.45 + time * 0.05 + currentScroll * Math.PI * 0.8 + userRotY;
 
       masterGroup.rotation.x += (targetMouseRotX - masterGroup.rotation.x) * 0.05;
       masterGroup.rotation.y += (targetMouseRotY - masterGroup.rotation.y) * 0.05;
+
+      // Throttle HUD update every 8 frames
+      if (frameCount % 8 === 0) {
+        const degX = Math.round((masterGroup.rotation.x * 180) / Math.PI) % 360;
+        const degY = Math.round((masterGroup.rotation.y * 180) / Math.PI) % 360;
+        setHudData({ rotX: degX, rotY: degY, isDragging });
+      }
 
       // 3D Breathing & Scale
       const breathe = 1 + Math.sin(time * 0.8) * 0.03;
@@ -327,8 +359,13 @@ export default function ThreeCanvas({ scrollProgress, mouseX, mouseY, className 
       crystalMesh.scale.setScalar(breathe * explodeScale);
       crystalWire.scale.setScalar(breathe * explodeScale * 1.01);
 
+      // Vertex nodes position update
+      vertexNodes.forEach(({ mesh, basePos }) => {
+        mesh.position.copy(basePos).multiplyScalar(breathe * explodeScale);
+      });
+
       // Crystal facet transmission/opacity shifts with decomposition
-      crystalMat.opacity = Math.max(0.3, 0.78 - decompSmooth * 0.35);
+      crystalMat.opacity = Math.max(0.3, 0.8 - decompSmooth * 0.35);
 
       // Inner neural core counter-rotates
       innerMesh.rotation.x = -time * 0.12;
@@ -396,6 +433,8 @@ export default function ThreeCanvas({ scrollProgress, mouseX, mouseY, className 
       crystalMat.dispose();
       crystalWireGeo.dispose();
       crystalWireMat.dispose();
+      vertexSphereGeo.dispose();
+      vertexSphereMat.dispose();
       innerGeo.dispose();
       innerMat.dispose();
       innerWireGeo.dispose();
@@ -423,8 +462,23 @@ export default function ThreeCanvas({ scrollProgress, mouseX, mouseY, className 
         height: '100%',
         position: 'absolute',
         inset: 0,
-        cursor: 'grab',
+        cursor: hudData.isDragging ? 'grabbing' : 'grab',
       }}
-    />
+    >
+      {/* 3D Real-time Engineering Coordinate HUD */}
+      <div className="three-canvas__hud" aria-hidden="true">
+        <div className="three-canvas__hud-badge">
+          <span className="three-canvas__hud-dot" />
+          <span className="font-mono label">
+            {hudData.isDragging ? 'ROTATING 3D CORES' : '3D SCULPTURE · DRAG TO ROTATE'}
+          </span>
+        </div>
+        <div className="three-canvas__hud-coords font-mono">
+          <span>X: {hudData.rotX}°</span>
+          <span>Y: {hudData.rotY}°</span>
+          <span>NODES: 476</span>
+        </div>
+      </div>
+    </div>
   );
 }

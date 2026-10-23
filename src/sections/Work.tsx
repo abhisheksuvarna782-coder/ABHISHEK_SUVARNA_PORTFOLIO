@@ -1,5 +1,5 @@
 import { useRef, useState, type ReactNode } from 'react';
-import { ExternalLink, Github, ArrowUpRight } from 'lucide-react';
+import { ExternalLink, Github, ArrowUpRight, Trophy, Zap, ShieldCheck } from 'lucide-react';
 import { useIntersection } from '../hooks/useIntersection';
 import { use3DTilt } from '../hooks/use3DTilt';
 import { PROJECTS, FEATURED_PROJECTS, CATEGORY_LABELS, type ProjectCategory } from '../data/projects';
@@ -8,34 +8,62 @@ import './Work.css';
 
 const ALL_CATEGORIES: ProjectCategory[] = ['ai-ml', 'computer-vision', 'full-stack', 'security', 'data-cloud'];
 
+const ACHIEVEMENTS = [
+  {
+    icon: Trophy,
+    title: 'Hack to Future 2026',
+    host: 'NITK Surathkal — National Level',
+    category: 'AI & Systems Innovation',
+    detail: 'Finalist engineering predictive systems and real-time inference under 24-hour sprint pressure.',
+    tag: 'National Finalist',
+  },
+  {
+    icon: Zap,
+    title: 'Sahyadri DevHost 2026',
+    host: 'Synergia 26 (Team QuadCoders)',
+    category: 'Constraint-Aware AI',
+    detail: 'Engineered RouteRecover AI for Problem Statement 4.1, delivering automated disruption recovery.',
+    tag: 'Problem 4.1 Innovator',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Oracle OCI Certified',
+    host: 'Oracle Cloud Infrastructure',
+    category: 'Cloud Architecture & Security',
+    detail: 'Certified Foundations Associate in cloud infrastructure, enterprise security, and IAM.',
+    tag: 'Certified Associate',
+  },
+  {
+    icon: Trophy,
+    title: 'NEXATHON 2025',
+    host: 'Shree Devi Institute of Technology',
+    category: 'Healthcare & ML',
+    detail: 'Demonstrated HealVision health analytics platform in 24-hour national hackathon.',
+    tag: 'National Hackathon',
+  },
+];
+
 // SVG thumbnails for each project — architectural representations
 function ProjectThumbnail({ id }: { id: string }) {
   const configs: Record<string, ReactNode> = {
     deepshield: (
       <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" aria-label="DeepShield visual representation">
         <rect width="400" height="260" fill="#EEEAE1"/>
-        {/* Shield form */}
         <path d="M200 40 L280 80 L280 160 Q200 220 200 220 Q200 220 120 160 L120 80 Z" fill="none" stroke="#777C5B" strokeWidth="1.5"/>
-        {/* Neural network nodes */}
         {[0,1,2,3,4].map(i => <circle key={i} cx={130 + i * 35} cy={120} r="4" fill="#777C5B" opacity={0.6}/>)}
         {[0,1,2].map(i => <circle key={i} cx={148 + i * 52} cy={150} r="4" fill="#A88A62" opacity={0.6}/>)}
-        {/* Connections */}
         {[0,1,2,3].map(i => <line key={i} x1={130 + i * 35} y1={120} x2={148 + (i > 1 ? i - 1 : i) * 52} y2={150} stroke="#DCD8CE" strokeWidth="0.8"/>)}
         <circle cx="200" cy="170" r="6" fill="#777C5B" opacity={0.9}/>
-        {/* Label */}
         <text x="20" y="240" fontFamily="JetBrains Mono, monospace" fontSize="10" fill="#9D9C95" letterSpacing="2">COMPUTER VISION · AI FORENSICS</text>
       </svg>
     ),
     'route-recover-ai': (
       <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" aria-label="RouteRecover AI visual representation">
         <rect width="400" height="260" fill="#EEEAE1"/>
-        {/* Route path */}
         <path d="M60 200 Q120 80 200 120 Q280 160 340 60" fill="none" stroke="#A88A62" strokeWidth="1.5" strokeDasharray="6 4"/>
-        {/* Nodes */}
         {[[60,200],[200,120],[340,60]].map(([x,y],i) => (
           <circle key={i} cx={x} cy={y} r={i===1?8:6} fill={i===1?"#A88A62":"#777C5B"} opacity={0.8}/>
         ))}
-        {/* Alternative routes */}
         <path d="M60 200 Q100 160 140 180 Q180 200 200 120" fill="none" stroke="#DCD8CE" strokeWidth="1" strokeDasharray="4 6"/>
         <text x="20" y="240" fontFamily="JetBrains Mono, monospace" fontSize="10" fill="#9D9C95" letterSpacing="2">AI TRAVEL · CONSTRAINT PLANNING</text>
       </svg>
@@ -43,13 +71,9 @@ function ProjectThumbnail({ id }: { id: string }) {
     'cyberguard-x': (
       <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" aria-label="CyberGuard X visual representation">
         <rect width="400" height="260" fill="#EEEAE1"/>
-        {/* Classification boundary */}
         <ellipse cx="200" cy="130" rx="140" ry="90" fill="none" stroke="#DCD8CE" strokeWidth="1"/>
-        {/* Spam points */}
         {[[140,90],[160,100],[130,120],[150,80]].map(([x,y],i) => <circle key={i} cx={x} cy={y} r="5" fill="#A88A62" opacity={0.7}/>)}
-        {/* Legit points */}
         {[[250,150],[270,140],[260,170],[280,155]].map(([x,y],i) => <circle key={i} cx={x} cy={y} r="5" fill="#777C5B" opacity={0.7}/>)}
-        {/* Decision boundary */}
         <line x1="200" y1="50" x2="200" y2="210" stroke="#B8B4AA" strokeWidth="1" strokeDasharray="4 4"/>
         <text x="20" y="240" fontFamily="JetBrains Mono, monospace" fontSize="10" fill="#9D9C95" letterSpacing="2">ML CLASSIFICATION · THREAT INTEL</text>
       </svg>
@@ -57,9 +81,7 @@ function ProjectThumbnail({ id }: { id: string }) {
     healvision: (
       <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" aria-label="HealVision visual representation">
         <rect width="400" height="260" fill="#EEEAE1"/>
-        {/* Heartbeat line */}
         <polyline points="40,130 100,130 120,80 140,170 160,100 180,150 200,130 360,130" fill="none" stroke="#777C5B" strokeWidth="1.5"/>
-        {/* Data circles */}
         {[80,160,240,320].map((x,i) => <circle key={i} cx={x} cy={130} r="3" fill="#A88A62" opacity={0.6}/>)}
         <text x="20" y="240" fontFamily="JetBrains Mono, monospace" fontSize="10" fill="#9D9C95" letterSpacing="2">AI HEALTH · ML ANALYTICS · HACKATHON</text>
       </svg>
@@ -116,9 +138,28 @@ function FeaturedProjectCard({ project, index, onOpen }: {
           </div>
         </div>
 
+        {project.award && (
+          <div className="project-card__award">
+            <Trophy size={13} aria-hidden="true" />
+            <span>{project.award}</span>
+          </div>
+        )}
+
         <h3 className="project-card__name">{project.name}</h3>
         <p className="project-card__tagline">{project.tagline}</p>
         <p className="project-card__desc">{project.description.slice(0, 180)}…</p>
+
+        {/* Live Metrics Strip */}
+        {project.metrics && project.metrics.length > 0 && (
+          <div className="project-card__metrics">
+            {project.metrics.map((m, idx) => (
+              <div key={idx} className="project-card__metric">
+                <span className="project-card__metric-val font-mono">{m.value}</span>
+                <span className="project-card__metric-lbl label">{m.label}</span>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Stack */}
         <div className="project-card__stack">
@@ -158,28 +199,49 @@ function ArchiveRow({ project, onOpen }: {
     <div className="archive-row" onClick={() => onOpen(project.slug)} role="button" tabIndex={0}
          onKeyDown={e => e.key === 'Enter' && onOpen(project.slug)}
          aria-label={`View ${project.name}`}>
-      <span className="project-number archive-row__num">{project.number}</span>
-      <div className="archive-row__info">
-        <span className="archive-row__name">{project.name}</span>
-        <span className="archive-row__tagline">{project.tagline}</span>
+      <span className="archive-row__number font-mono">{project.number}</span>
+      <div className="archive-row__main">
+        <h4 className="archive-row__name">{project.name}</h4>
+        <p className="archive-row__tagline">{project.tagline}</p>
       </div>
-      <div className="archive-row__cats">
-        {project.categories.slice(0,1).map(c => (
-          <span key={c} className="tag">{CATEGORY_LABELS[c]}</span>
+      <div className="archive-row__stack">
+        {project.stack.slice(0, 3).map(s => (
+          <span key={s} className="tag">{s}</span>
         ))}
       </div>
-      <div className="archive-row__links" onClick={e => e.stopPropagation()}>
+      <div className="archive-row__actions">
         <a href={project.githubUrl} target="_blank" rel="noopener noreferrer"
-           className="btn btn-ghost" aria-label={`${project.name} GitHub`}>
-          <Github size={14} aria-hidden="true" />
+           className="archive-row__icon-btn" aria-label={`${project.name} GitHub`}
+           onClick={e => e.stopPropagation()}>
+          <Github size={16} aria-hidden="true" />
         </a>
-        {project.demoUrl && (
-          <a href={project.demoUrl} target="_blank" rel="noopener noreferrer"
-             className="btn btn-ghost" aria-label={`${project.name} demo`}>
-            <ExternalLink size={14} aria-hidden="true" />
-          </a>
-        )}
+        <ArrowUpRight size={16} className="archive-row__arrow" aria-hidden="true" />
       </div>
+    </div>
+  );
+}
+
+function AchievementCard({ achievement, index }: { achievement: typeof ACHIEVEMENTS[0]; index: number }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  use3DTilt(cardRef, { maxTilt: 6, perspective: 1000, scale: 1.02 });
+  const Icon = achievement.icon;
+
+  return (
+    <div
+      ref={cardRef}
+      className="achievement-card"
+      style={{ '--reveal-delay': `${index * 80}ms` } as React.CSSProperties}
+    >
+      <div className="achievement-card__glare" aria-hidden="true" />
+      <div className="achievement-card__header">
+        <div className="achievement-card__icon-box">
+          <Icon size={18} aria-hidden="true" />
+        </div>
+        <span className="achievement-card__tag label font-mono">{achievement.tag}</span>
+      </div>
+      <h4 className="achievement-card__title">{achievement.title}</h4>
+      <p className="achievement-card__host label">{achievement.host}</p>
+      <p className="achievement-card__detail">{achievement.detail}</p>
     </div>
   );
 }
@@ -188,51 +250,48 @@ export default function Work() {
   const ref = useRef<HTMLElement>(null);
   const visible = useIntersection(ref, { threshold: 0.05 });
   const [activeFilter, setActiveFilter] = useState<ProjectCategory | 'all'>('all');
-  const [openProject, setOpenProject] = useState<string | null>(null);
+  const [openedSlug, setOpenSlug] = useState<string | null>(null);
 
-  const filteredFeatured = FEATURED_PROJECTS.filter(
-    p => activeFilter === 'all' || p.categories.includes(activeFilter as ProjectCategory)
-  );
+  const openedProject = PROJECTS.find(p => p.slug === openedSlug);
 
-  const archiveProjects = PROJECTS.filter(p => !p.featured).filter(
-    p => activeFilter === 'all' || p.categories.includes(activeFilter as ProjectCategory)
-  );
+  const filteredFeatured = activeFilter === 'all'
+    ? FEATURED_PROJECTS
+    : FEATURED_PROJECTS.filter(p => p.categories.includes(activeFilter));
 
-  const openedProject = openProject ? PROJECTS.find(p => p.slug === openProject) : null;
+  const archiveProjects = activeFilter === 'all'
+    ? PROJECTS.filter(p => !p.featured)
+    : PROJECTS.filter(p => !p.featured && p.categories.includes(activeFilter));
 
   return (
     <>
-      <section ref={ref} id="work" className="work section" aria-label="Selected projects">
+      <section ref={ref} id="work" className="work section" aria-label="Selected engineering work">
         <div className="container">
 
           {/* Section header */}
           <div className={`work__header reveal ${visible ? 'revealed' : ''}`}>
-            <div className="work__header-left">
+            <div>
               <p className="label tracking-widest work__section-label">Selected Work</p>
               <h2 className="work__headline">
-                Projects built with
+                Systems built to solve
                 <br />
-                <em>purpose and precision.</em>
+                <em>real engineering problems.</em>
               </h2>
             </div>
             <p className="work__intro">
-              A selection of AI and software projects — each one addressing a real problem,
-              built with deliberate technology choices.
+              Each project represents a distinct challenge in architecture,
+              machine learning, or user experience. Explore the case studies
+              for implementation details and design rationale.
             </p>
           </div>
 
           {/* Filters */}
-          <div
-            className={`work__filters reveal ${visible ? 'revealed' : ''} reveal-delay-2`}
-            role="group"
-            aria-label="Filter projects by category"
-          >
+          <div className="work__filters" role="group" aria-label="Filter projects by discipline">
             <button
               className={`work__filter-btn ${activeFilter === 'all' ? 'work__filter-btn--active' : ''}`}
               onClick={() => setActiveFilter('all')}
               aria-pressed={activeFilter === 'all'}
             >
-              All
+              All Projects ({PROJECTS.length})
             </button>
             {ALL_CATEGORIES.map(cat => (
               <button
@@ -254,7 +313,7 @@ export default function Work() {
                   key={project.id}
                   project={project}
                   index={i}
-                  onOpen={setOpenProject}
+                  onOpen={setOpenSlug}
                 />
               ))
             ) : (
@@ -270,11 +329,26 @@ export default function Work() {
               </h3>
               <div className="work__archive-list" role="list">
                 {archiveProjects.map(p => (
-                  <ArchiveRow key={p.id} project={p} onOpen={setOpenProject} />
+                  <ArchiveRow key={p.id} project={p} onOpen={setOpenSlug} />
                 ))}
               </div>
             </div>
           )}
+
+          {/* 3D Hackathon & Recognition Honors Showcase */}
+          <div className="work__achievements-section">
+            <div className="work__achievements-header">
+              <p className="label tracking-widest">Honors & Milestones</p>
+              <h3 className="work__achievements-title">
+                Verified Hackathon & Industry Recognitions
+              </h3>
+            </div>
+            <div className="work__achievements-grid">
+              {ACHIEVEMENTS.map((ach, i) => (
+                <AchievementCard key={ach.title} achievement={ach} index={i} />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -282,7 +356,7 @@ export default function Work() {
       {openedProject && (
         <ProjectDetail
           project={openedProject}
-          onClose={() => setOpenProject(null)}
+          onClose={() => setOpenSlug(null)}
         />
       )}
     </>
