@@ -1,0 +1,14 @@
+/* Application Shell */
+.app {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+}
+
+.main-content {
+  flex: 1;
+  position: relative;
+}

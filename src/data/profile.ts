@@ -1,0 +1,107 @@
+export const PROFILE = {
+  name: 'Abhishek Suvarna',
+  initials: 'AS',
+  tagline: 'AI & ML Engineering Student | Python, Web & Cloud Developer',
+  location: 'Kerala, India',
+  email: 'abhisheksuvarna782@gmail.com',
+  phone: '+91 8891164684',
+  github: 'https://github.com/abhisheksuvarna782-coder',
+  linkedin: 'https://www.linkedin.com/in/abhishek-suvarna-1bb2b6335/',
+  bio: [
+    'I\'m an AI & ML engineering student building thoughtful software across machine learning, computer vision, and the web. My work focuses on turning technical ideas into usable products—from detection systems and AI platforms to full-stack web applications.',
+    'I learn through implementation. Every project is an opportunity to explore a new problem domain, validate an approach with real code, and deliver something that actually works.',
+  ],
+  education: {
+    degree: 'Bachelor of Engineering in Computer Science & Engineering (AI & ML)',
+    institution: 'AJ Institute of Engineering and Technology',
+    location: 'Mangalore, Karnataka',
+    graduationYear: 2027,
+    cgpa: 8.7,
+    semesters: [
+      { sem: 1, gpa: 8.32 },
+      { sem: 2, gpa: 9.05 },
+      { sem: 3, gpa: 8.65 },
+      { sem: 4, gpa: 8.7 },
+      { sem: 5, gpa: 8.8 },
+    ],
+    preUniversity: {
+      institution: 'Sarojini Madhusudan Kushe PU College',
+      score: '88%',
+      stream: 'PCMB',
+    },
+    school: {
+      institution: 'Bhagavathi English Medium School',
+      score: '87%',
+      exam: 'SSLC',
+    },
+  },
+  skills: {
+    programming: ['Python', 'C', 'C++', 'JavaScript ES6+', 'OOP', 'Data Structures'],
+    web: ['FastAPI', 'Flask', 'HTML5', 'CSS3', 'React', 'REST APIs', 'Responsive Design'],
+    ai: ['Machine Learning', 'Computer Vision', 'Vision Transformer', 'scikit-learn', 'Ollama LLM', 'NumPy', 'Pandas'],
+    cloud: ['Microsoft Azure', 'Oracle Cloud Infrastructure', 'Vercel', 'Railway'],
+    tools: ['Git', 'VS Code', 'AntiGravity IDE', 'Vite'],
+  },
+  certifications: [
+    {
+      name: 'Oracle Certified Foundations Associate',
+      issuer: 'Oracle Cloud Infrastructure',
+      date: 'September 2025',
+    },
+    {
+      name: 'AINNOVATION 2025',
+      issuer: 'Microsoft Azure Learning Challenge',
+      date: 'August 2025',
+    },
+    {
+      name: 'Python Bootcamp',
+      issuer: 'LetsUpgrade (NSDC & ITM EduTech)',
+      date: 'October 2025',
+    },
+    {
+      name: 'Python Fundamentals',
+      issuer: 'Infosys Springboard',
+      date: '2025',
+    },
+    {
+      name: 'Mastering Python',
+      issuer: 'Infosys Springboard',
+      date: '2025',
+    },
+  ],
+  hackathons: [
+    {
+      name: 'Hack to Future 2026',
+      type: 'National-Level Hackathon',
+      host: 'NITK Surathkal',
+      year: 2026,
+    },
+    {
+      name: 'NEXATHON 2025',
+      type: 'National 24-Hour Hackathon',
+      host: 'Shree Devi Institute of Technology',
+      year: 2025,
+    },
+    {
+      name: 'Empathy Encryption Hackathon',
+      type: 'Hackathon',
+      host: 'Unsaid Talks Education Pvt. Ltd.',
+      year: 2025,
+    },
+    {
+      name: 'Sahyadri DevHost 2026',
+      type: 'Hackathon',
+      host: 'Synergia 26',
+      year: 2026,
+    },
+  ],
+  workshops: [
+    { name: 'Hands-on Workshop', host: 'Unicourt, Mangalore' },
+    { name: 'Be10x AI Tools Workshop', host: 'Be10x' },
+    { name: 'Code for Bharat Gen AI Workshop', host: 'Code for Bharat' },
+    { name: 'Data Engineering Workshops (1 & 2)', host: 'Online' },
+    { name: 'Active Learning on Microsoft Learn', host: 'Microsoft' },
+  ],
+  languages: ['English — Fluent', 'Hindi — Fluent', 'Kannada — Fluent', 'Malayalam — Basic'],
+  interests: ['Volleyball', 'Athletics', 'AI Research', 'Open-source development'],
+} as const;

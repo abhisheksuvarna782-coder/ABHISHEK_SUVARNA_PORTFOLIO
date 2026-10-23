@@ -1,0 +1,204 @@
+/* Journey Section */
+.journey {
+  background: var(--color-bg);
+}
+
+.journey__header {
+  margin-bottom: var(--space-16);
+}
+
+.journey__header .label {
+  display: block;
+  margin-bottom: var(--space-4);
+}
+
+.journey__headline {
+  font-size: var(--text-3xl);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.journey__headline em {
+  font-style: italic;
+  color: var(--color-accent);
+}
+
+/* Timeline */
+.timeline {
+  list-style: none;
+  position: relative;
+  margin-bottom: var(--space-20);
+  max-width: 760px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--color-border);
+}
+
+@media (min-width: 640px) {
+  .timeline::before {
+    left: 120px;
+  }
+}
+
+.timeline__item {
+  display: flex;
+  gap: var(--space-6);
+  padding-bottom: var(--space-10);
+  position: relative;
+  padding-left: var(--space-8);
+}
+
+@media (min-width: 640px) {
+  .timeline__item {
+    padding-left: 0;
+  }
+}
+
+.timeline__marker {
+  position: absolute;
+  left: -5px;
+  top: 6px;
+  z-index: 1;
+}
+
+@media (min-width: 640px) {
+  .timeline__marker {
+    left: 115px;
+  }
+}
+
+.timeline__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-border-2);
+  border: 2px solid var(--color-bg);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.timeline__item--education .timeline__dot  { background: var(--color-ink); }
+.timeline__item--certification .timeline__dot { background: var(--color-accent); }
+.timeline__item--hackathon .timeline__dot  { background: var(--color-bronze); }
+.timeline__item--workshop .timeline__dot   { background: var(--color-border-2); }
+
+.timeline__body {
+  flex: 1;
+  padding-left: 0;
+}
+
+@media (min-width: 640px) {
+  .timeline__body {
+    padding-left: calc(120px + var(--space-10));
+  }
+}
+
+.timeline__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+.timeline__year {
+  font-size: var(--text-xs);
+  color: var(--color-subtle);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .timeline__year {
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 100px;
+    text-align: right;
+  }
+}
+
+.timeline__type-badge {
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+}
+
+.timeline__type-badge--education    { color: var(--color-ink);   }
+.timeline__type-badge--certification { color: var(--color-accent); }
+.timeline__type-badge--hackathon    { color: var(--color-bronze); }
+.timeline__type-badge--workshop     { color: var(--color-muted);  }
+
+.timeline__title {
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--color-ink);
+  line-height: 1.3;
+  margin-bottom: var(--space-1);
+}
+
+.timeline__sub {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  line-height: 1.5;
+}
+
+.timeline__detail {
+  margin-top: var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--color-subtle);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  display: inline-block;
+}
+
+/* Personal */
+.journey__personal {
+  padding: var(--space-12) var(--space-10);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  max-width: 760px;
+}
+
+.journey__personal-label {
+  display: block;
+  margin-bottom: var(--space-5);
+}
+
+.journey__personal-text {
+  font-size: var(--text-md);
+  color: var(--color-ink-2);
+  line-height: 1.75;
+  max-width: 56ch;
+  margin-bottom: var(--space-8);
+}
+
+.journey__langs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.journey__langs .label {
+  color: var(--color-muted);
+}
+
+.journey__lang-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.journey__lang {
+  font-size: var(--text-sm);
+}
