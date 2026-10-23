@@ -4,7 +4,7 @@
 
 **Premium 3D Engineering Portfolio · AI & ML Engineering Student · Software Developer**
 
-[![Live Site](https://img.shields.io/badge/Live%20Site-abhishek--suvarna--portfolio.vercel.app-black?style=for-the-badge&logo=vercel)](https://abhishek-suvarna-portfolio.vercel.app/)
+[![Live Site]([https://img.shields.io/badge/Live%20Site-abhishek--suvarna--portfolio.vercel.app-black?style=for-the-badge&logo=vercel](https://abhishek-suvarna-portfolio-gabr.vercel.app/))](https://abhishek-suvarna-portfolio.vercel.app/)
 [![GitHub](https://img.shields.io/badge/GitHub-abhisheksuvarna782--coder-181717?style=for-the-badge&logo=github)](https://github.com/abhisheksuvarna782-coder)
 [![Built with React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)](https://react.dev)
 [![Three.js](https://img.shields.io/badge/Three.js-0.168-black?style=for-the-badge&logo=threedotjs)](https://threejs.org)
