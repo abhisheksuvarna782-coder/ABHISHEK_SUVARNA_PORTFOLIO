@@ -75,7 +75,7 @@ abhi-portfolio/
 
 ---
 
-## 🛠 Getting Started
+## 🛠 Getting Started.
 
 ### Prerequisites
 - **Node.js** ≥ 18
