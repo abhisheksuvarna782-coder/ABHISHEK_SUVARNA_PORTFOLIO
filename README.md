@@ -1,6 +1,6 @@
 <div align="center">
 
-# ✦ Abhishek Suvarna —- Portfolio
+# ✦ Abhishek Suvarna — Portfolio
 
 **Premium 3D Engineering Portfolio · AI & ML Engineering Student  Software Developer**
 
